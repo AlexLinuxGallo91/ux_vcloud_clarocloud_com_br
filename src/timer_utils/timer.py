@@ -10,4 +10,6 @@ class Timer:
 
     @staticmethod
     def get_total_time(init_time: float, final_time: float):
+        print('initial time: {}'.format(init_time))
+        print('final time: {}'.format(final_time))
         return round(final_time - init_time, 2)

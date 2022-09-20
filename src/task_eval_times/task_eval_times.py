@@ -25,7 +25,7 @@ class TaskEvalTimes:
             var_results.HTTP_TIME_TOTAL_RESPONSE = Timer.get_total_time(initial_time, Timer.get_current_time())
 
     @staticmethod
-    def verify_time_render_portal(web_driver: webdriver.Chrome, url_portal: str, timeout_render=60):
+    def verify_time_render_portal(web_driver: webdriver.Chrome, url_portal: str, timeout_render: int = 60):
         initial_time = Timer.get_current_time()
 
         try:
@@ -44,7 +44,8 @@ class TaskEvalTimes:
         var_results.TIME_TOTAL_RENDER_PORTAL = Timer.get_total_time(initial_time, Timer.get_current_time())
 
     @staticmethod
-    def verify_time_render_portal_with_click(web_driver: webdriver.Chrome, url_portal: str, timeout_render=60):
+    def verify_time_render_portal_with_refresh(web_driver: webdriver.Chrome, url_portal: str,
+                                               timeout_render: int = 60):
         initial_time = Timer.get_current_time()
 
         try:
@@ -54,10 +55,12 @@ class TaskEvalTimes:
             try:
                 web_driver.refresh()
             except TimeoutException:
-                var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
+                pass
 
         try:
             web_driver.set_page_load_timeout(timeout_render)
+            print(type(timeout_render))
+            print('timeout_render: {}'.format(timeout_render))
             web_driver.get(url_portal)
         except TimeoutException:
             var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
@@ -70,4 +73,3 @@ class TaskEvalTimes:
 
         web_driver.set_page_load_timeout(60)
         var_results.TIME_TOTAL_RENDER_PORTAL = Timer.get_total_time(initial_time, Timer.get_current_time())
-        print('tiempo total: {}'.format(var_results.TIME_TOTAL_RENDER_PORTAL))
