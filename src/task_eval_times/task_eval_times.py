@@ -59,8 +59,6 @@ class TaskEvalTimes:
 
         try:
             web_driver.set_page_load_timeout(timeout_render)
-            print(type(timeout_render))
-            print('timeout_render: {}'.format(timeout_render))
             web_driver.get(url_portal)
         except TimeoutException:
             var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
