@@ -1,5 +1,6 @@
 from pyzabbix import ZabbixSender, ZabbixMetric
 from src.timer_utils import var_results
+import socket
 
 
 class ZabbixSenderUtils:
@@ -31,7 +32,9 @@ class ZabbixSenderUtils:
             metrics_sended_correctly = False
         except TimeoutError:
             metrics_sended_correctly = False
+        except socket.error:
+            metrics_sended_correctly = False
 
-        print('se enviaron?: {}'.format(metrics_sended_correctly))
+        print('se enviaron correctamente las metricas?: {}'.format(metrics_sended_correctly))
 
         return metrics_sended_correctly

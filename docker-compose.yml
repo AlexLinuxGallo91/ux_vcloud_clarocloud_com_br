@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  ux_vcloud_br:
+    build: .
+    image: ux_vcloud_br:latest
+    ports:
+      - "7900:7900"
+    shm_size: '2gb'
