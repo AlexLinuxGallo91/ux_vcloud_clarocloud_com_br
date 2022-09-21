@@ -6,3 +6,5 @@ services:
     ports:
       - "7900:7900"
     shm_size: '2gb'
+    dns:
+      - 8.8.8.8
