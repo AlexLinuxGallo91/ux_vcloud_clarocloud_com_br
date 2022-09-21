@@ -2,6 +2,13 @@
 experiencia de usuario con docker y selenium para el portal clarocloud.com.br
 
 ## uso / instalacion
+Antes que nada, se necesita primero hacer el build de la imagen con el 
+siguiente comando
+
+```bash
+docker compose build
+```
+
 para la ejecucion de la experiencia de usuario, se requiere solamente ejecutar
 el siguiente comando con docker
 
