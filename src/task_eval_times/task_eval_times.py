@@ -40,6 +40,7 @@ class TaskEvalTimes:
         except TimeoutException:
             var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
 
+        var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = 1 if var_results.RESULT_PORTAL_RENDERED_IS_CORRECT else 0
         web_driver.set_page_load_timeout(60)
         var_results.TIME_TOTAL_RENDER_PORTAL = Timer.get_total_time(initial_time, Timer.get_current_time())
 
@@ -69,5 +70,6 @@ class TaskEvalTimes:
         except TimeoutException:
             var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
 
+        var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = 1 if var_results.RESULT_PORTAL_RENDERED_IS_CORRECT else 0
         web_driver.set_page_load_timeout(60)
         var_results.TIME_TOTAL_RENDER_PORTAL = Timer.get_total_time(initial_time, Timer.get_current_time())

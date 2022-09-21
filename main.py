@@ -44,6 +44,11 @@ def main():
 
     # se genera la lista de metricas
     metric_list = ZabbixSenderUtils.generate_list_metrics(monitored_hostname_zabbix, monitored_hostname_key_zabbix)
+
+    if debug:
+        for metric in metric_list:
+            print(metric)
+
     ZabbixSenderUtils.send_list_metrics_to_zabbix_server(zabbix_host, metric_list)
 
 
