@@ -50,7 +50,7 @@ class TaskEvalTimes:
         initial_time = Timer.get_current_time()
 
         try:
-            web_driver.set_page_load_timeout(5)
+            web_driver.set_page_load_timeout(10)
             web_driver.get(url_portal)
         except TimeoutException:
             try:
