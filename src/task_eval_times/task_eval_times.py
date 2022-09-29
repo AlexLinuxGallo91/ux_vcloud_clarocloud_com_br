@@ -2,9 +2,11 @@ import requests
 from requests.exceptions import ReadTimeout
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from requests.exceptions import ConnectionError
 
 from src.timer_utils import var_results
 from src.timer_utils.timer import Timer
@@ -22,6 +24,9 @@ class TaskEvalTimes:
             var_results.HTTP_TIME_TOTAL_RESPONSE = round(r.elapsed.total_seconds(), 2)
         except ReadTimeout:
             var_results.HTTP_STATUS_CODE = 408
+            var_results.HTTP_TIME_TOTAL_RESPONSE = Timer.get_total_time(initial_time, Timer.get_current_time())
+        except ConnectionError:
+            var_results.HTTP_STATUS_CODE = 502
             var_results.HTTP_TIME_TOTAL_RESPONSE = Timer.get_total_time(initial_time, Timer.get_current_time())
 
     @staticmethod
@@ -62,6 +67,8 @@ class TaskEvalTimes:
             web_driver.set_page_load_timeout(timeout_render)
             web_driver.get(url_portal)
         except TimeoutException:
+            var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
+        except WebDriverException:
             var_results.RESULT_PORTAL_RENDERED_IS_CORRECT = False
 
         try:
