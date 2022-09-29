@@ -1,6 +1,7 @@
 from src.env_utils.env_utils import EnvUtils
 from src.task_eval_times.task_eval_times import TaskEvalTimes
 from src.webdriver_utils.webdriver_utils import WebDriverUtils
+from selenium.common.exceptions import TimeoutException
 from src.timer_utils import var_results
 from src.zabbix_utils.zabbix_utils import ZabbixSenderUtils
 
@@ -15,6 +16,7 @@ def main():
     zabbix_host = EnvUtils.get_env_value('ZABBIX_HOST')
     monitored_hostname_zabbix = EnvUtils.get_env_value('HOSTNAME_MONITOR')
     monitored_hostname_key_zabbix = EnvUtils.get_env_value('HOST_KEY_MONITOR')
+    number_of_tries_web_browser_incorrect = 0
 
     # se establece el tiempo del timeout para la peticion http como para el ingreso por medio del webdriver
     # si este llega a no ser un int, se establece por defecto con el valor de 60
@@ -23,8 +25,26 @@ def main():
     except ValueError:
         timeout_render_portal = 60
 
-    # se obtiene un webdriver de navegador Chrome
+    # se obtiene un webdriver de navegador Chrome, verifica que no se quede estatico con la url data:,
+    # de lo contrario, se establecera/instanciara un nuevo webdriver
     web_driver_chrome = WebDriverUtils.generate_webdriver_chrome(path_webdriver)
+
+    while number_of_tries_web_browser_incorrect < 3:
+
+        web_driver_chrome.set_page_load_timeout(15)
+
+        try:
+            web_driver_chrome.get(url_portal)
+        except TimeoutException:
+            pass
+
+        if 'data:,' in web_driver_chrome.current_url:
+            number_of_tries_web_browser_incorrect = number_of_tries_web_browser_incorrect + 1
+            web_driver_chrome.close()
+            web_driver_chrome.quit()
+            web_driver_chrome = WebDriverUtils.generate_webdriver_chrome(path_webdriver)
+        else:
+            break
 
     # se toma el tiempo de carga en el portal web
     if make_refresh_after_render_timeout:
